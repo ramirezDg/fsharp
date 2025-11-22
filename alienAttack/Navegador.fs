@@ -2,6 +2,7 @@ module App.Navegador
 
 open System
 open App.Types
+open App.Juego
 
 type NavigatorState=
 | ShowMainMenu
@@ -12,16 +13,19 @@ type NavigatorState=
 
 type State = {
     NavigatorState: NavigatorState
+    JuegoState: App.Types.State option
 }
 
 let initState() =
     {
         NavigatorState = ShowMainMenu
+        JuegoState = None
     }
 
 
 let showMainMenu state =
     Console.Clear()
+    Console.CursorVisible <- false
     let anchoConsola = Console.WindowWidth
     let calcX (texto:string) =
         let largo = texto.Length * 8
@@ -37,7 +41,7 @@ let showMainMenu state =
     let yMenu = 18 // Un poco más abajo de las letras
     match MainMenu.mostrarMenu xMenu yMenu with
     | MenuCommand.NewGame ->
-        {state with NavigatorState = ShowJuego}
+        {state with NavigatorState = ShowJuego; JuegoState = Some (Juego.initState())}
     | MenuCommand.LoadGame ->
         // Magia previa para leer los datos
         // del disco
@@ -47,8 +51,17 @@ let showMainMenu state =
 
 let showJuego state =
     Console.Clear()
-    Juego.mostrarJuego()
-    {state with NavigatorState=ShowGameOver}
+    Console.CursorVisible <- false
+    let initialJuegoState =
+        match state.JuegoState with
+        | Some js -> js
+        | None -> Juego.initState()
+    let finalJuegoState = Juego.mostrarJuego(initialJuegoState)
+    match finalJuegoState.ProgramState with
+    | ProgramState.Running -> {state with NavigatorState = ShowJuego; JuegoState = Some finalJuegoState}
+    | ProgramState.Paused -> {state with NavigatorState = ShowPausa; JuegoState = Some finalJuegoState}
+    | ProgramState.Terminated -> {state with NavigatorState = ShowGameOver; JuegoState = None}
+    | _ -> {state with NavigatorState = ShowGameOver; JuegoState = None}
 
 let showGameOver state =
     Console.Clear()
@@ -74,9 +87,13 @@ let showGameOver state =
 
 let showPause state =
     Console.Clear()
+    Console.CursorVisible <- false
     match MenuPausa.mostrarMenu 20 10 with
     | PauseCommand.Continue ->
-        {state with NavigatorState = ShowJuego}
+        let juegoState =
+            state.JuegoState
+            |> Option.map (fun js -> { js with ProgramState = ProgramState.Running })
+        { state with NavigatorState = ShowJuego; JuegoState = juegoState }
     | PauseCommand.SaveGame ->
         {state with NavigatorState = Terminated}
     | PauseCommand.Exit ->

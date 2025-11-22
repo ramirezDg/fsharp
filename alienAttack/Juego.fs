@@ -287,15 +287,16 @@ let rec mainLoop state =
     clearObjects state
     updateScreen newState
     dormirUnRato()
-    if newState.ProgramState = Running then
-        mainLoop newState
+    match newState.ProgramState with
+    | Running -> mainLoop newState
+    | _ -> newState // Retorna el estado final cuando termina
 
-let mostrarJuego() =
+let mostrarJuego (initialState: State) : State =
     Console.CursorVisible <- false
     Console.Clear()
 
-    initState()
-    |> mainLoop
+    let finalState = mainLoop initialState
 
     Console.Clear()
     Console.CursorVisible <- true
+    finalState
