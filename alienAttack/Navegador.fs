@@ -1,0 +1,100 @@
+module App.Navegador
+
+open System
+open App.Types
+
+type NavigatorState=
+| ShowMainMenu
+| ShowJuego
+| ShowPausa
+| ShowGameOver
+| Terminated
+
+type State = {
+    NavigatorState: NavigatorState
+}
+
+let initState() =
+    {
+        NavigatorState = ShowMainMenu
+    }
+
+
+let showMainMenu state =
+    Console.Clear()
+    let anchoConsola = Console.WindowWidth
+    let calcX (texto:string) =
+        let largo = texto.Length * 8
+        max 0 ((anchoConsola - largo) / 2)
+    let xAlien = calcX "Alien"
+    let xAttack = calcX "Attack"
+    Utils.displayMessageGigante xAlien 1 ConsoleColor.DarkYellow "Alien"
+    Utils.displayMessageGigante xAttack 8 ConsoleColor.DarkRed "Attack"
+
+    // Centrado horizontal y vertical para el menú
+    let menuWidth = 30 // Ajusta según el ancho del menú
+    let xMenu = max 0 ((anchoConsola - menuWidth) / 2)
+    let yMenu = 18 // Un poco más abajo de las letras
+    match MainMenu.mostrarMenu xMenu yMenu with
+    | MenuCommand.NewGame ->
+        {state with NavigatorState = ShowJuego}
+    | MenuCommand.LoadGame ->
+        // Magia previa para leer los datos
+        // del disco
+        {state with NavigatorState = ShowJuego}
+    | MenuCommand.Exit ->
+        {state with NavigatorState = Terminated}
+
+let showJuego state =
+    Console.Clear()
+    Juego.mostrarJuego()
+    {state with NavigatorState=ShowGameOver}
+
+let showGameOver state =
+    Console.Clear()
+    Console.CursorVisible <- false
+    let anchoConsola = Console.WindowWidth
+    let altoConsola = Console.WindowHeight
+    let texto = "Game Over"
+    let largo = texto.Length * 8 // assuming 8 chars per ASCII art letter
+    let xGameOver = max 0 ((anchoConsola - largo) / 2)
+    let yGameOver = 2
+    Utils.displayMessageGigante xGameOver yGameOver ConsoleColor.DarkMagenta texto
+
+    let menuWidth = 40
+    let menuHeight = 8
+    let menuX = max 0 ((anchoConsola - menuWidth) / 2)
+    let menuYOffset = 4
+    let menuY = max 0 ((altoConsola - menuHeight) / 2 + menuYOffset)
+    match FinJuego.mostrarMenu menuX menuY with
+    | GameOverCommand.NewGame ->
+        {state with NavigatorState = ShowJuego}
+    | GameOverCommand.Exit ->
+        {state with NavigatorState = Terminated}
+
+let showPause state =
+    Console.Clear()
+    match MenuPausa.mostrarMenu 20 10 with
+    | PauseCommand.Continue ->
+        {state with NavigatorState = ShowJuego}
+    | PauseCommand.SaveGame ->
+        {state with NavigatorState = Terminated}
+    | PauseCommand.Exit ->
+        {state with NavigatorState = Terminated}
+
+let updateState state =
+    match state.NavigatorState with
+    | ShowMainMenu -> showMainMenu state
+    | ShowJuego -> showJuego state
+    | ShowPausa -> showPause state
+    | ShowGameOver -> showGameOver state
+    | _ -> state
+
+let rec mainLoop state =
+    let newState = updateState state
+    if newState.NavigatorState <> Terminated then
+        mainLoop newState
+
+let mostrar() =
+    initState()
+    |> mainLoop
