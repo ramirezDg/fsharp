@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Zm6YLhK3hJ4=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Murphy\\Desktop\\docker_space\\fsharp\\traductor\\traductor.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Murphy\\.nuget\\packages\\fsharp.core\\9.0.303\\fsharp.core.9.0.303.nupkg.sha512"
+  ],
+  "logs": []
+}
