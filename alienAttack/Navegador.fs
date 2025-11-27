@@ -43,9 +43,12 @@ let showMainMenu state =
     | MenuCommand.NewGame ->
         {state with NavigatorState = ShowJuego; JuegoState = Some (Juego.initState())}
     | MenuCommand.LoadGame ->
-        // Magia previa para leer los datos
-        // del disco
-        {state with NavigatorState = ShowJuego}
+        let loadedState = App.Serializacion.cargarEstadoJuego ()
+        match loadedState with
+        | Some js ->
+            let jsRunning = { js with ProgramState = ProgramState.Running }
+            {state with NavigatorState = ShowJuego; JuegoState = Some jsRunning}
+        | None -> {state with NavigatorState = ShowJuego; JuegoState = Some (Juego.initState())}
     | MenuCommand.Exit ->
         {state with NavigatorState = Terminated}
 
@@ -97,7 +100,7 @@ let showPause state =
         match state.JuegoState with
         | Some js ->
             App.Serializacion.guardarEstadoJuego js
-            {state with NavigatorState = ShowJuego; JuegoState = Some js}
+            {state with NavigatorState = ShowMainMenu; JuegoState = None}
         | None ->
             {state with NavigatorState = Terminated}
     | PauseCommand.Exit ->

@@ -1,0 +1,164 @@
+{
+    "AlienX": 104,
+    "AlienY": 22,
+    "AlienState": "Visible",
+    "AlienVidas": 1,
+    "AlienColisionTime": 0,
+    "Counter": 7,
+    "Misiles": [
+        {
+            "Item1": 123,
+            "Item2": 23
+        },
+        {
+            "Item1": 127,
+            "Item2": 23
+        },
+        {
+            "Item1": 198,
+            "Item2": 26
+        },
+        {
+            "Item1": 203,
+            "Item2": 26
+        }
+    ],
+    "Tick": 187,
+    "Width": 209,
+    "Height": 49,
+    "ProgramState": "Paused",
+    "EnemyX": 199,
+    "EnemyY": 7,
+    "EnemySpeed": 0.06283185307179587,
+    "EnemyState": "Visible",
+    "ColisionTime": 0,
+    "Puntaje": 0,
+    "MisilesEnemigos": [
+        {
+            "Item1": 195,
+            "Item2": 8
+        },
+        {
+            "Item1": 189,
+            "Item2": 16
+        },
+        {
+            "Item1": 183,
+            "Item2": 26
+        },
+        {
+            "Item1": 177,
+            "Item2": 34
+        },
+        {
+            "Item1": 171,
+            "Item2": 42
+        },
+        {
+            "Item1": 165,
+            "Item2": 47
+        },
+        {
+            "Item1": 159,
+            "Item2": 48
+        },
+        {
+            "Item1": 153,
+            "Item2": 47
+        },
+        {
+            "Item1": 147,
+            "Item2": 42
+        },
+        {
+            "Item1": 141,
+            "Item2": 34
+        },
+        {
+            "Item1": 135,
+            "Item2": 26
+        },
+        {
+            "Item1": 129,
+            "Item2": 16
+        },
+        {
+            "Item1": 123,
+            "Item2": 8
+        },
+        {
+            "Item1": 117,
+            "Item2": 3
+        },
+        {
+            "Item1": 111,
+            "Item2": 0
+        },
+        {
+            "Item1": 105,
+            "Item2": 0
+        },
+        {
+            "Item1": 99,
+            "Item2": 4
+        },
+        {
+            "Item1": 93,
+            "Item2": 11
+        },
+        {
+            "Item1": 87,
+            "Item2": 19
+        },
+        {
+            "Item1": 81,
+            "Item2": 29
+        },
+        {
+            "Item1": 75,
+            "Item2": 37
+        },
+        {
+            "Item1": 69,
+            "Item2": 44
+        },
+        {
+            "Item1": 63,
+            "Item2": 48
+        },
+        {
+            "Item1": 57,
+            "Item2": 48
+        },
+        {
+            "Item1": 51,
+            "Item2": 45
+        },
+        {
+            "Item1": 45,
+            "Item2": 40
+        },
+        {
+            "Item1": 39,
+            "Item2": 32
+        },
+        {
+            "Item1": 33,
+            "Item2": 22
+        },
+        {
+            "Item1": 27,
+            "Item2": 14
+        },
+        {
+            "Item1": 21,
+            "Item2": 6
+        },
+        {
+            "Item1": 15,
+            "Item2": 1
+        }
+    ],
+    "UltimoDisparo": 186,
+    "EnemyAngle": 4.71238898038469
+}

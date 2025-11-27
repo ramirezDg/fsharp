@@ -13,7 +13,7 @@ let initState() =
         Height = height
         AlienX = width/2
         AlienY = height/2
-        AlienVidas = 1
+        AlienVidas = 3
         AlienState = Visible
         AlienColisionTime = 0
         Misiles=[]
@@ -59,21 +59,17 @@ let displayEnemy state =
 let displayMissil state =
     state.Misiles
     |> List.iter ( fun m ->
-        displayMessage m.X m.Y ConsoleColor.Red "=>"
+        displayMessage m.X m.Y ConsoleColor.DarkYellow "=>"
     )
     state
 
 let displayMisilesEnemigos state =
     state.MisilesEnemigos
     |> List.iter ( fun m ->
-        displayMessage m.X m.Y ConsoleColor.Yellow "<="
+        displayMessage m.X m.Y ConsoleColor.DarkMagenta "<="
     )
     state
 
-//
-// Modificar esta función para que el contador salga perfecto
-// con el último digito en la ultima columna.
-//
 let displayCounter state =
     displayJustifiedMessage (state.Width-1) 0 ConsoleColor.Yellow $"{state.Counter}"
     state
