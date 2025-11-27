@@ -22,7 +22,6 @@ let initState() =
         JuegoState = None
     }
 
-
 let showMainMenu state =
     Console.Clear()
     Console.CursorVisible <- false
@@ -35,10 +34,9 @@ let showMainMenu state =
     Utils.displayMessageGigante xAlien 1 ConsoleColor.DarkYellow "Alien"
     Utils.displayMessageGigante xAttack 8 ConsoleColor.DarkRed "Attack"
 
-    // Centrado horizontal y vertical para el menú
-    let menuWidth = 30 // Ajusta según el ancho del menú
+    let menuWidth = 30 
     let xMenu = max 0 ((anchoConsola - menuWidth) / 2)
-    let yMenu = 18 // Un poco más abajo de las letras
+    let yMenu = 18
     match MainMenu.mostrarMenu xMenu yMenu with
     | MenuCommand.NewGame ->
         {state with NavigatorState = ShowJuego; JuegoState = Some (Juego.initState())}
