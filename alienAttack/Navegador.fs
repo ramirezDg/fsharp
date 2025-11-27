@@ -61,7 +61,6 @@ let showJuego state =
     | ProgramState.Running -> {state with NavigatorState = ShowJuego; JuegoState = Some finalJuegoState}
     | ProgramState.Paused -> {state with NavigatorState = ShowPausa; JuegoState = Some finalJuegoState}
     | ProgramState.Terminated -> {state with NavigatorState = ShowGameOver; JuegoState = None}
-    | _ -> {state with NavigatorState = ShowGameOver; JuegoState = None}
 
 let showGameOver state =
     Console.Clear()
@@ -95,7 +94,12 @@ let showPause state =
             |> Option.map (fun js -> { js with ProgramState = ProgramState.Running })
         { state with NavigatorState = ShowJuego; JuegoState = juegoState }
     | PauseCommand.SaveGame ->
-        {state with NavigatorState = Terminated}
+        match state.JuegoState with
+        | Some js ->
+            App.Serializacion.guardarEstadoJuego js
+            {state with NavigatorState = ShowJuego; JuegoState = Some js}
+        | None ->
+            {state with NavigatorState = Terminated}
     | PauseCommand.Exit ->
         {state with NavigatorState = Terminated}
 
